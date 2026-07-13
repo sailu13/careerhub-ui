@@ -1,13 +1,16 @@
 export const API_ENDPOINTS = {
   AUTH: {
-    LOGIN: "/auth/login",
-    REGISTER: "/auth/register",
-    FORGOT_PASSWORD: "/auth/forgot-password",
+    LOGIN: "/api/auth/login",
+    REGISTER: "/api/auth/register",
+    FORGOT_PASSWORD: "/api/auth/forgot-password",
+    ME: "/api/auth/me",
   },
 
-  APPLICATIONS: "/applications",
+  DASHBOARD: "/api/dashboard",
 
-  RESUME: "/resume",
+  APPLICATIONS: "/api/applications",
 
-  AI: "/ai",
+  RESUME: "/api/resume",
+
+  AI: "/api/ai",
 };
