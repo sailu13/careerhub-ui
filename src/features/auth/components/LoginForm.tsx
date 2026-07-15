@@ -11,6 +11,10 @@ import { Link, useNavigate } from "react-router-dom";
 
 import Logo from "@/shared/components/common/Logo";
 import { login } from "../services/authService";
+import { Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
+import { text } from "framer-motion/client";
+
 
 export default function LoginForm() {
   const {
@@ -22,23 +26,24 @@ export default function LoginForm() {
   });
 
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   async function onSubmit(data: LoginFormData) {
-  try {
-    const response = await login(data);
+    try {
+      const response = await login(data);
 
-    const loginData = response.data.data;
+      const loginData = response.data.data;
 
-    localStorage.setItem("token", loginData.accessToken);
-    localStorage.setItem("email", loginData.email);
+      localStorage.setItem("token", loginData.accessToken);
+      localStorage.setItem("email", loginData.email);
 
-    navigate("/dashboard");
+      navigate("/dashboard");
 
-  } catch (error) {
-    console.error(error);
-    alert("Invalid email or password");
+    } catch (error) {
+      console.error(error);
+      alert("Invalid email or password");
+    }
   }
-}
 
   return (
     <Card>
@@ -78,13 +83,28 @@ export default function LoginForm() {
         <div>
           <Label htmlFor="password">Password</Label>
 
-          <Input
-            id="password"
-            type="password"
-            placeholder="Enter your password"
-            error={errors.password?.message}
-            {...register("password")}
-          />
+          <div className="relative">
+            <Input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter your password"
+              error={errors.password?.message}
+              className="pr-12"
+              {...register("password")}
+            />
+
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+            >
+              {showPassword ? (
+                <EyeOff size={20} />
+              ) : (
+                <Eye size={20} />
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Remember Me + Forgot Password */}

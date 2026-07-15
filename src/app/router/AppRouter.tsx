@@ -9,6 +9,7 @@ import RegisterPage from "@/features/auth/pages/RegisterPage";
 import ForgotPasswordPage from "@/features/auth/pages/ForgotPasswordPage";
 
 import DashboardPage from "@/features/dashboard/pages/DashboardPage";
+import ProfilePage from "@/features/profile/pages/ProfilePage";
 
 export default function AppRouter() {
   return (
@@ -28,8 +29,10 @@ export default function AppRouter() {
         {/* Dashboard */}
         <Route element={<DashboardLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Route>
       </Routes>
+
     </BrowserRouter>
   );
 }
