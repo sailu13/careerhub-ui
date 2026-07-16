@@ -51,8 +51,12 @@ export default function ProfilePage() {
     }
   }
 
+  if(loading) {
+    return <div className="p-10">Loading...</div>
+  }
+
   if (!profile) {
-    return <div className="p-10">Loading...</div>;
+    return <div className="p-10">Profile not found</div>;
   }
 
   return (
