@@ -1,39 +1,109 @@
-import { Link } from "react-router-dom";
+import { Bell, Moon, Menu } from "lucide-react";
+import UserDropdown from "./UserDropdown";
+import { useTheme } from "@/context/ThemeContext";
 
-export default function Navbar() {
+type Props = {
+  onMenuClick: () => void;
+};
+
+export default function Navbar({ onMenuClick }: Props) {
+  const { theme, setTheme } = useTheme();
+
+  const isLight = theme === "light";
+
   return (
-    <nav className="sticky top-0 z-50 border-b border-slate-800 bg-slate-950/80 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
+    <header
+      className={`flex items-center justify-between border-b px-6 py-4 transition-colors
+      ${
+        isLight
+          ? "bg-white border-slate-200"
+          : "bg-slate-950 border-slate-800"
+      }`}
+    >
+      {/* Left */}
 
-        <Link to="/" className="text-2xl font-bold text-blue-500">
-          CareerHub
-        </Link>
+      <div className="flex items-center gap-4">
 
-        <div className="hidden gap-8 md:flex">
-          <Link to="/">Home</Link>
+        <button
+          onClick={onMenuClick}
+          className={`rounded-lg p-2 transition lg:hidden
+          ${
+            isLight
+              ? "hover:bg-slate-100"
+              : "hover:bg-slate-800"
+          }`}
+        >
+          <Menu
+            size={22}
+            className={isLight ? "text-slate-700" : "text-white"}
+          />
+        </button>
 
-          <a href="#features">Features</a>
-
-          <a href="#about">About</a>
-        </div>
-
-        <div className="flex gap-3">
-          <Link
-            to="/login"
-            className="rounded-lg border border-slate-700 px-4 py-2 hover:bg-slate-800"
+        <div>
+          <h1
+            className={`text-xl font-bold ${
+              isLight ? "text-slate-900" : "text-white"
+            }`}
           >
-            Login
-          </Link>
+            Dashboard
+          </h1>
 
-          <Link
-            to="/register"
-            className="rounded-lg bg-blue-600 px-4 py-2 hover:bg-blue-700"
+          <p
+            className={`text-sm ${
+              isLight ? "text-slate-500" : "text-slate-400"
+            }`}
           >
-            Sign Up
-          </Link>
+            Welcome back
+          </p>
         </div>
 
       </div>
-    </nav>
+
+      {/* Right */}
+
+      <div className="flex items-center gap-4">
+
+        {/* Notification */}
+
+        <button
+          className={`relative rounded-lg p-2 transition
+          ${
+            isLight
+              ? "hover:bg-slate-100"
+              : "hover:bg-slate-800"
+          }`}
+        >
+          <Bell
+            size={22}
+            className={isLight ? "text-slate-700" : "text-white"}
+          />
+
+          <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-semibold text-white">
+            2
+          </span>
+        </button>
+
+        {/* Theme */}
+
+        <button
+          onClick={()=> setTheme(theme=== "dark" ? "light" : "dark")}
+          className={`rounded-lg p-2 transition
+          ${
+            isLight
+              ? "hover:bg-slate-100"
+              : "hover:bg-slate-800"
+          }`}
+        >
+          <Moon
+            size={20}
+            className={isLight ? "text-slate-700" : "text-white"}
+          />
+        </button>
+
+        <UserDropdown />
+
+      </div>
+
+    </header>
   );
 }

@@ -1,16 +1,24 @@
 import { useEffect, useState } from "react";
 import { getProfile, updateProfile } from "../services/profileService";
 import type { ProfileResponse } from "../types/profile";
-import { tr } from "zod/locales";
+import PageHeader from "@/shared/components/common/PageHeader";
+import Avatar from "@/shared/components/common/Avatar";
+import LoadingSkeleton from "@/shared/components/common/LoadingSkeleton";
+import { toast } from "sonner";
+import { useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
+import AppCard from "@/shared/components/common/AppCard";
+// import { tr } from "zod/locales";
 
 export default function ProfilePage() {
 
   const [profile, setProfile] = useState<ProfileResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
-
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const location = useLocation();
+  const showBack = location.state?.fromDashboard ?? false;
 
   useEffect(() => {
     loadProfile();
@@ -21,6 +29,7 @@ export default function ProfilePage() {
       const response = await getProfile();
       // setProfile(response.data.data);
       const user = response.data.data;
+      await new Promise((resolve) => setTimeout(resolve, 1200));
       setProfile(user);
       setFirstName(user.firstName);
       setLastName(user.lastName);
@@ -44,15 +53,22 @@ export default function ProfilePage() {
       });
 
       setEditing(false);
-      alert("Profile Updated Successfully");
+      toast.success("Profile Updated Successfully");
     } catch(error) {
       console.error(error);
-      alert("Unable to Update Profile");
+      toast.error("Unable to Update Profile");
     }
   }
 
   if(loading) {
-    return <div className="p-10">Loading...</div>
+    return (
+      <div className="mx-auto max-w-3xl space-y-6 p-8">
+        <LoadingSkeleton className="h-10 w-60" />
+        <LoadingSkeleton className="h-24 w-full" />
+        <LoadingSkeleton className="h-20 w-full" />
+        <LoadingSkeleton className="h-20 w-full" />
+      </div>
+    );
   }
 
   if (!profile) {
@@ -60,13 +76,35 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-8">
+    <motion.div
+    initial={{ opacity: 0, y: 15 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.3 }}>
 
-      <h1 className="text-3xl font-bold mb-8">
-        My Profile
-      </h1>
+      <PageHeader
+       title="My Profile"
+       subtitle="Check your details"
+       showBack={showBack}
+      />
+      
+      <div className="mb-8 flex items-center gap-5">
+        <Avatar
+         firstName={profile.firstName}
+         lastName={profile.lastName}
+        />
 
-      <div className="bg-slate-800 rounded-xl p-8 space-y-6">
+        <div>
+          <h2 className="text-3xl font-bold">
+            {profile.firstName} {profile.lastName}
+          </h2>
+
+          <p className="text-slate-400">
+            {profile.email}
+          </p>
+        </div>
+      </div>
+
+      <AppCard className="space-y-6">
 
         <div>
           <label className="text-slate-400">First Name</label>
@@ -127,8 +165,8 @@ export default function ProfilePage() {
              </button>
           )}
         </div>
-      </div>
+      </AppCard>
 
-    </div>
+    </motion.div>
   );
 }

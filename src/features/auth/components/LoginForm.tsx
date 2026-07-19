@@ -13,7 +13,7 @@ import Logo from "@/shared/components/common/Logo";
 import { login } from "../services/authService";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { text } from "framer-motion/client";
+import { toast } from "sonner";
 
 
 export default function LoginForm() {
@@ -36,12 +36,15 @@ export default function LoginForm() {
 
       localStorage.setItem("token", loginData.accessToken);
       localStorage.setItem("email", loginData.email);
+      localStorage.setItem("firstName", loginData.firstName);
+      localStorage.setItem("lastName", loginData.lastName);
+      localStorage.setItem("userId", loginData.id.toString());
 
       navigate("/dashboard");
 
     } catch (error) {
       console.error(error);
-      alert("Invalid email or password");
+      toast.error("Invalid email or password");
     }
   }
 
