@@ -1,11 +1,18 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "@/shared/components/layout/Navbar";
+import PublicNavbar from "@/shared/components/layout/PublicNavbar";
+import { useAppTheme } from "@/shared/theme/theme";
 
 export default function PublicLayout() {
+
+  const t = useAppTheme();
+
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
-      <Navbar />
+    <div className={`min-h-screen transition-colors duration-300 ${t.page}`}>
+
+      <PublicNavbar />
+
       <Outlet />
+
     </div>
   );
 }

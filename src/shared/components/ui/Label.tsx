@@ -1,15 +1,22 @@
-type LabelProps = {
-  htmlFor: string;
-  children: React.ReactNode;
-};
+import type { LabelHTMLAttributes } from "react";
+import { useTheme } from "@/context/ThemeContext";
 
-export default function Label({ htmlFor, children }: LabelProps) {
+export default function Label({
+  className,
+  ...props
+}: LabelHTMLAttributes<HTMLLabelElement>) {
+  const { theme } = useTheme();
+
   return (
     <label
-      htmlFor={htmlFor}
-      className="mb-2 block text-sm font-medium text-slate-300"
-    >
-      {children}
-    </label>
+      {...props}
+      className={`mb-2 block text-sm font-medium
+      ${
+        theme === "light"
+          ? "text-slate-700"
+          : "text-slate-300"
+      }
+      ${className ?? ""}`}
+    />
   );
 }

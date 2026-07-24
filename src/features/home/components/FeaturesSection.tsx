@@ -1,4 +1,5 @@
 import Container from "@/shared/components/ui/Container";
+import { useTheme } from "@/context/ThemeContext";
 
 const features = [
   {
@@ -28,15 +29,30 @@ const features = [
 ];
 
 export default function FeaturesSection() {
+  const { theme } = useTheme();
+
+  const isLight = theme === "light";
+
   return (
-    <section className="bg-slate-950 py-24 text-white" id="features">
+    <section
+      id="features"
+      className={`py-24 transition-colors duration-300 ${
+        isLight
+          ? "bg-white text-slate-900"
+          : "bg-slate-950 text-white"
+      }`}
+    >
       <Container>
         <div className="text-center">
           <h2 className="text-4xl font-bold">
             Everything You Need to Get Hired
           </h2>
 
-          <p className="mt-4 text-slate-400">
+          <p
+            className={`mt-4 ${
+              isLight ? "text-slate-600" : "text-slate-400"
+            }`}
+          >
             CareerHub combines AI with powerful tools to simplify your job search.
           </p>
         </div>
@@ -45,7 +61,11 @@ export default function FeaturesSection() {
           {features.map((feature) => (
             <div
               key={feature.title}
-              className="rounded-2xl border border-slate-700 bg-slate-900 p-6 transition hover:border-blue-500 hover:-translate-y-1"
+              className={`rounded-2xl border p-6 transition duration-300 hover:-translate-y-1 ${
+                isLight
+                  ? "border-slate-200 bg-white shadow hover:border-blue-500 hover:shadow-xl"
+                  : "border-slate-700 bg-slate-900 hover:border-blue-500"
+              }`}
             >
               <div className="text-5xl">{feature.icon}</div>
 
@@ -53,7 +73,11 @@ export default function FeaturesSection() {
                 {feature.title}
               </h3>
 
-              <p className="mt-4 text-slate-400">
+              <p
+                className={`mt-4 ${
+                  isLight ? "text-slate-600" : "text-slate-400"
+                }`}
+              >
                 {feature.description}
               </p>
             </div>

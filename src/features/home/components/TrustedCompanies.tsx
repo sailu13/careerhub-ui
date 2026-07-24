@@ -1,4 +1,5 @@
 import Container from "@/shared/components/ui/Container";
+import { useTheme } from "@/context/ThemeContext";
 
 const companies = [
   "Google",
@@ -10,11 +11,24 @@ const companies = [
 ];
 
 export default function TrustedCompanies() {
+  const { theme } = useTheme();
+
+  const isLight = theme === "light";
+
   return (
-    <section className="bg-slate-900 py-16">
+    <section
+      id="companies"
+      className={`py-16 transition-colors duration-300 ${
+        isLight ? "bg-slate-100" : "bg-slate-900"
+      }`}
+    >
       <Container>
         <div className="text-center">
-          <p className="mb-10 text-sm uppercase tracking-widest text-slate-400">
+          <p
+            className={`mb-10 text-sm uppercase tracking-widest ${
+              isLight ? "text-slate-500" : "text-slate-400"
+            }`}
+          >
             Inspired by careers at leading companies
           </p>
 
@@ -22,7 +36,11 @@ export default function TrustedCompanies() {
             {companies.map((company) => (
               <div
                 key={company}
-                className="rounded-xl border border-slate-700 bg-slate-800 p-6 text-center font-semibold text-slate-300 transition hover:border-blue-500 hover:text-white"
+                className={`rounded-xl border p-6 text-center font-semibold transition duration-300 ${
+                  isLight
+                    ? "border-slate-200 bg-white text-slate-700 shadow hover:border-blue-500 hover:shadow-lg"
+                    : "border-slate-700 bg-slate-800 text-slate-300 hover:border-blue-500 hover:text-white"
+                }`}
               >
                 {company}
               </div>

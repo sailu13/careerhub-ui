@@ -6,22 +6,22 @@ import {
   Sparkles,
   ArrowRight,
 } from "lucide-react";
-import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 import PageHeader from "@/shared/components/common/PageHeader";
 import LoadingSkeleton from "@/shared/components/common/LoadingSkeleton";
 import StatCard from "@/shared/components/common/StatCard";
+import AppCard from "@/shared/components/common/AppCard";
+import { useAppTheme } from "@/shared/theme/theme";
 
 import { getDashboard } from "../services/dashboardService";
 import type { DashboardResponse } from "../types/dashboard";
-import AppCard from "@/shared/components/common/AppCard";
 
 export default function DashboardPage() {
   const [dashboard, setDashboard] = useState<DashboardResponse | null>(null);
   const [loading, setLoading] = useState(true);
-
   const navigate = useNavigate();
+  const t = useAppTheme();
 
   useEffect(() => {
     loadDashboard();
@@ -47,16 +47,23 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-8">
+
       <PageHeader
         title="Career Overview"
         subtitle="Track your career journey"
       />
 
-      {/* Statistics */}
+      {/* Stats */}
+
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+
         <StatCard
           title="Resume"
-          value={dashboard?.resumes ? "Uploaded" : "Not Uploaded"}
+          value={
+            dashboard?.resumes
+              ? "Uploaded"
+              : "Not Uploaded"
+          }
           icon={<FileText size={28} />}
           color="bg-green-600"
         />
@@ -81,108 +88,108 @@ export default function DashboardPage() {
           icon={<Sparkles size={28} />}
           color="bg-purple-600"
         />
+
       </div>
 
       {/* Quick Actions */}
-      <div className="mt-10">
-        <h2 className="mb-6 text-2xl font-bold">
+
+      <div>
+
+        <h2 className={`mb-6 text-2xl font-bold ${t.heading}`}>
           Quick Actions
         </h2>
 
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
 
           {/* Profile */}
-          <AppCard
-            whileHover={{ y: -8, scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            transition={{ duration: 0.2 }}
-            onClick={() =>
-              navigate("/profile", {
-                state: { fromDashboard: true },
-              })
-            }
-            className="group hover:border-blue-500 hover:shadow-lg">
-            <User className="mb-4 text-blue-500" size={34} />
 
-            <h3 className="text-lg font-semibold">
+          <AppCard whileHover={{ y: -8, scale: 1.02 }} whileTap={{ scale: 0.98 }}
+            onClick={() => navigate("/profile", { state: { fromDashboard: true }, }) }
+            className={`group cursor-pointer ${t.hoverCard}`} >
+     
+            <User size={34} className="mb-4 text-blue-500" />
+
+            <h3 className={`text-lg font-semibold ${t.heading}`}>
               Update Profile
             </h3>
 
-            <p className="mt-2 text-sm text-slate-400">
+            <p className={`mt-2 text-sm ${t.subText}`}>
               Keep your personal information updated.
             </p>
 
-            <div className="mt-5 flex items-center gap-2 text-blue-400">
+            <div className="mt-5 flex items-center gap-2 text-blue-500">
               Open <ArrowRight size={18} />
             </div>
+
           </AppCard>
 
           {/* Resume */}
-          <AppCard
-            whileHover={{ y: -8, scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() =>
-              navigate("/resume", {
-                state: { fromDashboard: true },
-              })
-            }
-            className="group hover:border-green-500 hover:shadow-lg">
+
+          <AppCard whileHover={{ y: -8, scale: 1.02 }} whileTap={{ scale: 0.98 }}
+            onClick={() => navigate("/resume", { state: { fromDashboard: true }, }) }
+            className={`group cursor-pointer hover:border-green-500 ${t.hoverCard}`} >
             <FileText size={34} className="mb-4 text-green-500" />
 
-            <h3 className="text-lg font-semibold">
+            <h3 className={`text-lg font-semibold ${t.heading}`}>
               Manage Resume
             </h3>
 
-            <p className="mt-2 text-sm text-slate-400">
+            <p className={`mt-2 text-sm ${t.subText}`}>
               Upload, Replace and Download your resume.
             </p>
 
-            <div className="mt-5 flex items-center gap-2 text-green-400">
+            <div className="mt-5 flex items-center gap-2 text-green-500">
               Open <ArrowRight size={18} />
             </div>
+
           </AppCard>
 
           {/* Jobs */}
-          <AppCard
-            whileHover={{ y: -8, scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            // onClick={() =>
-            //   navigate("/resume", {
-            //     state: { fromDashboard: true },
-            //   })
-            // }
-            className="opacity-70 cursor-default">
 
-            <h3 className="text-lg font-semibold">
+          <AppCard whileHover={{y: -8, scale: 1.02}} whileTap={{scale: 0.98}}
+            onClick={()=> navigate("/jobs", {state: {fromDashboard: true}})}
+            className="group cursor-pointer hover:border-orange-500 hover:shadow-xl">
+
+            <Briefcase
+              size={34}
+              className="mb-4 text-orange-500"
+            />
+
+            <h3 className={`text-lg font-semibold ${t.heading}`}>
               Browse Jobs
             </h3>
 
-            <p className="mt-2 text-sm text-slate-400">
-              Coming Soon
+            <p className={`mt-2 text-sm ${t.subText}`}>
+              Explore latest Opportunities
             </p>
+
+            <div className="mt-5 flex items-center gap-2 text-orange-500">Open <ArrowRight size={18} /></div>
+
           </AppCard>
 
-          {/* AI Review */}
-          <AppCard
-            whileHover={{ y: -8, scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            // onClick={() =>
-            //   navigate("/resume", {
-            //     state: { fromDashboard: true },
-            //   })
-            // }
-            className="opacity-70 cursor-default">
-            <h3 className="text-lg font-semibold">
+          {/* AI */}
+
+          <AppCard className="opacity-70">
+
+            <Sparkles
+              size={34}
+              className="mb-4 text-purple-500"
+            />
+
+            <h3 className={`text-lg font-semibold ${t.heading}`}>
               AI Resume Review
             </h3>
 
-            <p className="mt-2 text-sm text-slate-400">
+            <p className={`mt-2 text-sm ${t.subText}`}>
               Coming Soon
             </p>
 
           </AppCard>
+
         </div>
+
       </div>
+
     </div>
   );
 }

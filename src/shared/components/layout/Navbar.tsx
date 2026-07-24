@@ -1,108 +1,40 @@
-import { Bell, Moon, Menu } from "lucide-react";
-import UserDropdown from "./UserDropdown";
+import { Menu } from "lucide-react";
+
 import { useTheme } from "@/context/ThemeContext";
+
+import NavbarTitle from "./navbar/NavbarTitle";
+import NavbarActions from "./navbar/NavbarActions";
 
 type Props = {
   onMenuClick: () => void;
 };
 
-export default function Navbar({ onMenuClick }: Props) {
-  const { theme, setTheme } = useTheme();
+export default function Navbar({
+  onMenuClick,
+}: Props) {
+  const { theme } = useTheme();
 
   const isLight = theme === "light";
 
   return (
-    <header
-      className={`flex items-center justify-between border-b px-6 py-4 transition-colors
-      ${
-        isLight
-          ? "bg-white border-slate-200"
-          : "bg-slate-950 border-slate-800"
-      }`}
-    >
+    <header className={` fixed top-0 right-0 left-72 z-30 flex h-20 items-center justify-between border-b px-8 
+      transition-colors duration-300 ${ isLight ? "border-slate-200 bg-white" : "border-slate-800 bg-slate-950" } `} >
       {/* Left */}
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-5">
 
-        <button
-          onClick={onMenuClick}
-          className={`rounded-lg p-2 transition lg:hidden
-          ${
-            isLight
-              ? "hover:bg-slate-100"
-              : "hover:bg-slate-800"
-          }`}
-        >
-          <Menu
-            size={22}
-            className={isLight ? "text-slate-700" : "text-white"}
-          />
+        <button type="button" onClick={onMenuClick} className={` rounded-lg p-2 transition lg:hidden
+          ${ isLight ? "hover:bg-slate-100" : "hover:bg-slate-800" } `} >
+          <Menu size={22} className={ isLight ? "text-slate-700" : "text-white" } />
         </button>
 
-        <div>
-          <h1
-            className={`text-xl font-bold ${
-              isLight ? "text-slate-900" : "text-white"
-            }`}
-          >
-            Dashboard
-          </h1>
-
-          <p
-            className={`text-sm ${
-              isLight ? "text-slate-500" : "text-slate-400"
-            }`}
-          >
-            Welcome back
-          </p>
-        </div>
+        <NavbarTitle />
 
       </div>
 
       {/* Right */}
 
-      <div className="flex items-center gap-4">
-
-        {/* Notification */}
-
-        <button
-          className={`relative rounded-lg p-2 transition
-          ${
-            isLight
-              ? "hover:bg-slate-100"
-              : "hover:bg-slate-800"
-          }`}
-        >
-          <Bell
-            size={22}
-            className={isLight ? "text-slate-700" : "text-white"}
-          />
-
-          <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-semibold text-white">
-            2
-          </span>
-        </button>
-
-        {/* Theme */}
-
-        <button
-          onClick={()=> setTheme(theme=== "dark" ? "light" : "dark")}
-          className={`rounded-lg p-2 transition
-          ${
-            isLight
-              ? "hover:bg-slate-100"
-              : "hover:bg-slate-800"
-          }`}
-        >
-          <Moon
-            size={20}
-            className={isLight ? "text-slate-700" : "text-white"}
-          />
-        </button>
-
-        <UserDropdown />
-
-      </div>
+      <NavbarActions />
 
     </header>
   );

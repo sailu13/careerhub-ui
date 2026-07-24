@@ -9,7 +9,6 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
-import { fa } from "zod/v4/locales";
 
 export default function UserDropdown() {
     const navigate = useNavigate();

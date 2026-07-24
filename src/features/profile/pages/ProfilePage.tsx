@@ -8,15 +8,18 @@ import { toast } from "sonner";
 import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import AppCard from "@/shared/components/common/AppCard";
-// import { tr } from "zod/locales";
+import { useAppTheme } from "@/shared/theme/theme";
 
 export default function ProfilePage() {
+  const t = useAppTheme();
 
   const [profile, setProfile] = useState<ProfileResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+
   const location = useLocation();
   const showBack = location.state?.fromDashboard ?? false;
 
@@ -27,9 +30,11 @@ export default function ProfilePage() {
   async function loadProfile() {
     try {
       const response = await getProfile();
-      // setProfile(response.data.data);
+
       const user = response.data.data;
+
       await new Promise((resolve) => setTimeout(resolve, 1200));
+
       setProfile(user);
       setFirstName(user.firstName);
       setLastName(user.lastName);
@@ -43,24 +48,26 @@ export default function ProfilePage() {
   async function saveProfile() {
     try {
       await updateProfile({
-        firstName, lastName
+        firstName,
+        lastName,
       });
 
       setProfile({
         ...profile!,
         firstName,
-        lastName
+        lastName,
       });
 
       setEditing(false);
+
       toast.success("Profile Updated Successfully");
-    } catch(error) {
+    } catch (error) {
       console.error(error);
       toast.error("Unable to Update Profile");
     }
   }
 
-  if(loading) {
+  if (loading) {
     return (
       <div className="mx-auto max-w-3xl space-y-6 p-8">
         <LoadingSkeleton className="h-10 w-60" />
@@ -72,101 +79,148 @@ export default function ProfilePage() {
   }
 
   if (!profile) {
-    return <div className="p-10">Profile not found</div>;
+    return (
+      <div className={`p-10 ${t.heading}`}>
+        Profile not found
+      </div>
+    );
   }
 
   return (
     <motion.div
-    initial={{ opacity: 0, y: 15 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.3 }}>
-
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
       <PageHeader
-       title="My Profile"
-       subtitle="Check your details"
-       showBack={showBack}
+        title="My Profile"
+        subtitle="Check your details"
+        showBack={showBack}
       />
-      
+
+      {/* Profile Header */}
+
       <div className="mb-8 flex items-center gap-5">
         <Avatar
-         firstName={profile.firstName}
-         lastName={profile.lastName}
+          firstName={profile.firstName}
+          lastName={profile.lastName}
         />
 
         <div>
-          <h2 className="text-3xl font-bold">
+          <h2 className={`text-3xl font-bold ${t.heading}`}>
             {profile.firstName} {profile.lastName}
           </h2>
 
-          <p className="text-slate-400">
+          <p className={t.subText}>
             {profile.email}
           </p>
         </div>
       </div>
 
-      <AppCard className="space-y-6">
+      {/* Card */}
+
+      <AppCard className={`space-y-6 ${t.card}`}>
+
+        {/* First Name */}
 
         <div>
-          <label className="text-slate-400">First Name</label>
-          {editing ? (
-            <input
-             value={firstName}
-             onChange={(e)=> setFirstName(e.target.value)}
-             className="mt-2 w-full rounded border text-white p-2" />
-          ) : (
-            <p className="text-xl">{profile?.firstName}</p>
-          )
-        }
-        </div>
+          <label className={`block text-sm mb-2 ${t.subText}`}>
+            First Name
+          </label>
 
-        <div>
-          <label className="text-slate-400">Last Name</label>
           {editing ? (
             <input
-             value={lastName}
-             onChange={(e)=> setLastName(e.target.value)}
-             className="mt-2 w-full rounded border text-white p-2" />
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              className={`w-full rounded-lg border px-4 py-2 transition ${t.input}`}
+            />
           ) : (
-          <p className="text-xl">{profile?.lastName}</p>
+            <p className={`text-xl ${t.heading}`}>
+              {profile.firstName}
+            </p>
           )}
         </div>
 
-        <div>
-          <label className="text-slate-400">Email</label>
-          <p className="text-xl">{profile?.email}</p>
-        </div>
+        {/* Last Name */}
 
         <div>
-          <label className="text-slate-400">Role</label>
-          <p className="text-xl">{profile?.role}</p>
+          <label className={`block text-sm mb-2 ${t.subText}`}>
+            Last Name
+          </label>
+
+          {editing ? (
+            <input
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              className={`w-full rounded-lg border px-4 py-2 transition ${t.input}`}
+            />
+          ) : (
+            <p className={`text-xl ${t.heading}`}>
+              {profile.lastName}
+            </p>
+          )}
         </div>
+
+        {/* Email */}
+
+        <div>
+          <label className={`block text-sm mb-2 ${t.subText}`}>
+            Email
+          </label>
+
+          <p className={`text-xl ${t.heading}`}>
+            {profile.email}
+          </p>
+        </div>
+
+        {/* Role */}
+
+        <div>
+          <label className={`block text-sm mb-2 ${t.subText}`}>
+            Role
+          </label>
+
+          <p className={`text-xl ${t.heading}`}>
+            {profile.role}
+          </p>
+        </div>
+
+        {/* Buttons */}
 
         <div className="flex gap-4 pt-6">
 
           {editing ? (
             <>
-             <button
-              onClick={saveProfile}
-              className="rounded bg-green-600 px-6 py-2 text-white hover:bg-green-700">
+              <button
+                onClick={saveProfile}
+                className={t.successButton}
+              >
                 Save
-             </button>
+              </button>
 
-             <button
-              onClick={()=> setEditing(false)}
-              className="rounded bg-gray-500 px-6 py-2 text-white hover:bg-gray-600">
+              <button
+                onClick={() => {
+                  setEditing(false);
+                  setFirstName(profile.firstName);
+                  setLastName(profile.lastName);
+                }}
+                className={t.secondaryButton}
+              >
                 Cancel
               </button>
             </>
           ) : (
             <button
-             onClick={()=> setEditing(true)}
-             className="rounded bg-blue-600 px-6 py-2 text-white hover:bg-blue-700">
+              onClick={() => setEditing(true)}
+              className={t.primaryButton}
+            >
               Edit Profile
-             </button>
+            </button>
           )}
-        </div>
-      </AppCard>
 
+        </div>
+
+      </AppCard>
     </motion.div>
   );
 }
