@@ -7,14 +7,17 @@ import { Briefcase, Building2, Clock, IndianRupee, MapPin } from "lucide-react";
 import { formatPostedDate } from "../utils/jobUtils";
 import PrimaryButton from "@/shared/components/buttons/PrimaryButton";
 import SkillBadge from "@/shared/components/common/SkillBadge";
+import { useNavigate } from "react-router-dom";
 
 type Props = { job: Job; };
 
 export default function JobCard({ job }: Props) {
     const t = useAppTheme();
+    const navigate = useNavigate();
 
     return (
-        <AppCard whileHover={{ y: -5, scale: 1.01 }} className="space-y-5">
+        <AppCard whileHover={{ y: -5, scale: 1.01 }} onClick={()=> navigate(`/jobs/${job.id}`)} 
+            className="space-y-5 cursor-pointer transition-all">
             {/* Header */}
             <div className="flex items-start justify-between">
                 <div>
@@ -54,7 +57,7 @@ export default function JobCard({ job }: Props) {
                     <Clock size={16} />
                     Posted {formatPostedDate(job.postedAt)}
                 </div>
-                <PrimaryButton>Apply Now</PrimaryButton>
+                <PrimaryButton onClick={(e)=> {e.stopPropagation(); navigate(`/jobs/${job.id}`)}}>View Details</PrimaryButton>
             </div>
         </AppCard>
     );

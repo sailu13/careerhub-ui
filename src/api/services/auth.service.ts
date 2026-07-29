@@ -1,11 +1,14 @@
-import api from "../client";
+import http from "@/shared/services/http";
 import { API } from "../endpoints";
 
-export const login = (data: unknown)=> api.post(`${API.AUTH}/login`, data);
+export const login = (data: unknown) =>
+    http.post(API.AUTH.LOGIN, data);
 
-export const register = (data: unknown)=> api.post(`${API.AUTH}/register`, data);
+export const register = (data: unknown) =>
+    http.post(API.AUTH.REGISTER, data);
 
-export const forgotPassword = (email: string)=> api.post(`${API.AUTH}/forgot-password`, {email});
+export const forgotPassword = (email: string) =>
+    http.post(API.AUTH.FORGOT_PASSWORD, { email });
 
 export const resetPassword = (token: string, password: string) =>
-    api.post(`${API.AUTH}/reset-password`, {token, password});
+    http.post("/auth/reset-password", { token, password });

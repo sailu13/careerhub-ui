@@ -1,8 +1,13 @@
-import api from "../client";
+import type { Job } from "@/features/job/types/job";
 import { API } from "../endpoints";
+import http from "@/shared/services/http";
 
-export const getJobs = () =>
-  api.get(API.JOBS);
+export async function getJobs(): Promise<Job[]> {
+    const response = await http.get(API.JOBS);
+    return response.data.data;
+}
 
-export const getJobById = (id: number) =>
-  api.get(`${API.JOBS}/${id}`);
+export async function getJobById(id: number): Promise<Job> {
+    const response = await http.get(`${API.JOBS}/${id}`);
+    return response.data.data;
+}

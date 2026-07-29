@@ -1,37 +1,30 @@
+import { ChevronDown } from "lucide-react";
 import { useAppTheme } from "@/shared/theme/theme";
-
-type Option = {
-  label: string;
-  value: string;
-};
 
 type Props = {
   value: string;
+  options: string[];
   onChange: (value: string) => void;
-  options: Option[];
 };
 
-export default function FilterDropdown({
-  value,
-  onChange,
-  options,
-}: Props) {
+export default function FilterDropdown({ value, options, onChange,}: Props) {
   const t = useAppTheme();
 
+console.log("FilterDropdown received:", JSON.stringify(options, null, 2));
   return (
-    <select
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      className={`w-full rounded-lg border px-4 py-3 transition ${t.input}`}
-    >
-      {options.map((option) => (
-        <option
-          key={option.value}
-          value={option.value}
-        >
-          {option.label}
-        </option>
-      ))}
-    </select>
+    <div className="relative">
+      <select value={value} onChange={(e) => onChange(e.target.value)}
+        className={` w-full appearance-none rounded-xl border px-4 py-3 pr-10 outline-none transition ${t.input} `} >
+        {options.map((option) => (
+          <option key={option} value={option} >
+            {option}
+          </option>
+        ))}
+      </select>
+
+      <ChevronDown
+        size={18}
+        className={` pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 ${t.subText} `} />
+    </div>
   );
 }

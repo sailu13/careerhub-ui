@@ -1,32 +1,35 @@
 import { useState } from "react";
 
-import PageLayout from "@/shared/components/layout/PageLayout";
+import PageHeader from "@/shared/components/common/PageHeader";
+import SectionTitle from "@/shared/components/common/SectionTitle";
 
-import SearchBar from "@/shared/components/common/SearchBar";
-import FilterDropdown from "@/shared/components/common/FilterDropdown";
-
+import JobFilters from "../components/JobFilters";
 import JobList from "../components/JobList";
+import { useJobs } from "../hooks/useJobs";
+import { useLocation } from "react-router-dom";
 
 export default function JobsPage() {
   const [search, setSearch] = useState("");
-
-  const [status, setStatus] = useState("ALL");
+  const [location, setLocation] = useState("All");
+  const [employmentType, setEmploymentType] = useState("All");
+  const { jobs, loading } = useJobs({search, location, employmentType });
+  const routerLocation = useLocation();
+  const showBack = routerLocation.state?.fromDashboard ?? false;
 
   return (
-    <PageLayout
-      title="Jobs"
-      subtitle="Find your next opportunity"
-    >
-      {/* Search + Filter */}
+    <div className="space-y-8">
+      {/* Header */}
+      <PageHeader title="Browse Jobs" subtitle="Discover your next career opportunity" showBack={showBack} />
 
-      <div className="flex flex-col gap-4 md:flex-row">
-        <SearchBar value={search} onChange={setSearch} placeholder="Search jobs..." />
-        <FilterDropdown value={status} onChange={setStatus}
-          options={[ { label: "All", value: "ALL", }, { label: "Full Time", value: "FULL_TIME", }, 
-            { label: "Part Time", value: "PART_TIME", },{ label: "Contract", value: "CONTRACT"}, 
-            { label: "Intern", value: "INTERN"}, { label: "Remote", value: "REMOTE"} ]} />
-      </div>
-      <JobList search={search} status={status} />
-    </PageLayout>
+      {/* Search & Filters */}
+      <JobFilters search={search} onSearchChange={setSearch} location={location}
+        onLocationChange={setLocation} employmentType={employmentType} onEmploymentTypeChange={setEmploymentType} />
+
+      {/* Section Title */}
+      <SectionTitle title="Available Jobs" subtitle={`${jobs.length} Jobs Found`} />
+
+      {/* Job List */}
+      <JobList jobs={jobs} loading={loading} />
+    </div>
   );
 }

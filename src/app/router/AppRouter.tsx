@@ -15,6 +15,7 @@ import ProtectedRoute from "@/shared/components/auth/ProtectedRoute";
 import PublicRoute from "@/shared/components/auth/PublicRoute";
 import SettingsPage from "@/features/settings/pages/SettingsPage";
 import JobsPage from "@/features/job/pages/JobsPage";
+import JobDetailsPage from "@/features/job/pages/JobDetailsPage";
 
 export default function AppRouter() {
   return (
@@ -38,6 +39,7 @@ export default function AppRouter() {
           <Route path="/resume" element={<ResumePage />} />
           <Route path="/jobs" element={<JobsPage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/jobs/:id" element={<JobDetailsPage /> }/>
         </Route>
       </Routes>
 

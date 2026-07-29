@@ -12,14 +12,11 @@ import { useAppTheme } from "@/shared/theme/theme";
 
 export default function ProfilePage() {
   const t = useAppTheme();
-
   const [profile, setProfile] = useState<ProfileResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
-
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-
   const location = useLocation();
   const showBack = location.state?.fromDashboard ?? false;
 
@@ -30,11 +27,8 @@ export default function ProfilePage() {
   async function loadProfile() {
     try {
       const response = await getProfile();
-
       const user = response.data.data;
-
       await new Promise((resolve) => setTimeout(resolve, 1200));
-
       setProfile(user);
       setFirstName(user.firstName);
       setLastName(user.lastName);
@@ -47,19 +41,9 @@ export default function ProfilePage() {
 
   async function saveProfile() {
     try {
-      await updateProfile({
-        firstName,
-        lastName,
-      });
-
-      setProfile({
-        ...profile!,
-        firstName,
-        lastName,
-      });
-
+      await updateProfile({ firstName, lastName });
+      setProfile({ ...profile!, firstName, lastName });
       setEditing(false);
-
       toast.success("Profile Updated Successfully");
     } catch (error) {
       console.error(error);
@@ -79,11 +63,7 @@ export default function ProfilePage() {
   }
 
   if (!profile) {
-    return (
-      <div className={`p-10 ${t.heading}`}>
-        Profile not found
-      </div>
-    );
+    return (<div className={`p-10 ${t.heading}`}> Profile not found </div>);
   }
 
   return (

@@ -1,43 +1,38 @@
-import LoadingSkeleton from "@/shared/components/common/LoadingSkeleton";
-import NoData from "@/shared/components/common/NoData";
+import type { Job } from "../types/job";
+
 import JobCard from "./JobCard";
-import { useJobs } from "../hooks/useJobs";
 
-type Props = { search: string; status: string };
+import LoadingSkeleton from "@/shared/components/common/LoadingSkeleton";
+import EmptyState from "@/shared/components/common/EmptyState";
 
-export default function JobList({ search, status }: Props) {
-    const { jobs, loading } = useJobs();
+type Props = {
+  jobs: Job[];
+  loading: boolean;
+};
 
-    if (loading) {
-        return (
-            <div className="space-y-6">
-                <LoadingSkeleton className="h-56 w-full" />
-                <LoadingSkeleton className="h-56 w-full" />
-                <LoadingSkeleton className="h-56 w-full" />
-            </div>
-        );
-    }
+export default function JobList({ jobs, loading,}: Props) {
 
-    const filteredJobs = jobs.filter((job) => {
-        const matchesSearch = job.title.toLowerCase().includes(search.toLowerCase()) ||
-            job.company.toLowerCase().includes(search.toLowerCase()) ||
-            job.location.toLowerCase().includes(search.toLowerCase());
-        const matchesEmployementType = status === "ALL" || job.employmentType === status;
-
-        return matchesSearch && matchesEmployementType;
-    });
-
-    if (filteredJobs.length === 0) {
-        return (
-            <NoData title="No Jobs Found" description="Try changing your search or filter." />
-        );
-    }
-
+  if (loading) {
     return (
-        <div className="space-y-6">
-            {filteredJobs.map((job) => (
-                <JobCard key={job.id} job={job} />
-            ))}
-        </div>
+      <div className="space-y-6">
+        {[1, 2, 3].map((item) => (
+          <LoadingSkeleton key={item} className="h-64 w-full rounded-xl" />
+        ))}
+      </div>
     );
+  }
+
+  if (jobs.length === 0) {
+    return (
+      <EmptyState title="No Jobs Found" description="Try changing your search or filters." />
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {jobs.map((job) => (
+        <JobCard key={job.id} job={job} />
+      ))}
+    </div>
+  );
 }

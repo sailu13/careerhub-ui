@@ -1,26 +1,17 @@
 import { useEffect, useState } from "react";
-import {
-  FileText,
-  User,
-  Briefcase,
-  Sparkles,
-  ArrowRight,
-} from "lucide-react";
-import { useNavigate } from "react-router-dom";
-
+import { FileText, User, Briefcase, Sparkles, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import PageHeader from "@/shared/components/common/PageHeader";
 import LoadingSkeleton from "@/shared/components/common/LoadingSkeleton";
 import StatCard from "@/shared/components/common/StatCard";
 import AppCard from "@/shared/components/common/AppCard";
 import { useAppTheme } from "@/shared/theme/theme";
-
 import { getDashboard } from "../services/dashboardService";
 import type { DashboardResponse } from "../types/dashboard";
 
 export default function DashboardPage() {
   const [dashboard, setDashboard] = useState<DashboardResponse | null>(null);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
   const t = useAppTheme();
 
   useEffect(() => {
@@ -103,88 +94,100 @@ export default function DashboardPage() {
 
           {/* Profile */}
 
-          <AppCard whileHover={{ y: -8, scale: 1.02 }} whileTap={{ scale: 0.98 }}
-            onClick={() => navigate("/profile", { state: { fromDashboard: true }, }) }
-            className={`group cursor-pointer ${t.hoverCard}`} >
-     
-            <User size={34} className="mb-4 text-blue-500" />
+          <Link to="/profile" className="block">
+            <AppCard
+              whileHover={{ y: -8, scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="group flex min-h-[250px] flex-col cursor-pointer hover:border-blue-500 hover:shadow-xl">
 
-            <h3 className={`text-lg font-semibold ${t.heading}`}>
-              Update Profile
-            </h3>
+              <User size={34} className="mb-4 text-blue-500" />
 
-            <p className={`mt-2 text-sm ${t.subText}`}>
-              Keep your personal information updated.
-            </p>
+              <h3 className={`text-lg font-semibold ${t.heading}`}>
+                Update Profile
+              </h3>
 
-            <div className="mt-5 flex items-center gap-2 text-blue-500">
-              Open <ArrowRight size={18} />
-            </div>
+              <p className={`mt-2 h-12 text-sm ${t.subText}`}>
+                Keep your personal information updated.
+              </p>
 
-          </AppCard>
+              <div className="mt-auto flex items-center gap-2 pt-6 text-blue-500">
+                Open <ArrowRight size={18} />
+              </div>
+
+            </AppCard>
+          </Link>
 
           {/* Resume */}
 
-          <AppCard whileHover={{ y: -8, scale: 1.02 }} whileTap={{ scale: 0.98 }}
-            onClick={() => navigate("/resume", { state: { fromDashboard: true }, }) }
-            className={`group cursor-pointer hover:border-green-500 ${t.hoverCard}`} >
-            <FileText size={34} className="mb-4 text-green-500" />
+          <Link to="/resume" className="block">
+            <AppCard
+              whileHover={{ y: -8, scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="group flex min-h-[250px] flex-col cursor-pointer hover:border-green-500 hover:shadow-xl">
 
-            <h3 className={`text-lg font-semibold ${t.heading}`}>
-              Manage Resume
-            </h3>
+              <FileText size={34} className="mb-4 text-green-500" />
 
-            <p className={`mt-2 text-sm ${t.subText}`}>
-              Upload, Replace and Download your resume.
-            </p>
+              <h3 className={`text-lg font-semibold ${t.heading}`}>
+                Manage Resume
+              </h3>
 
-            <div className="mt-5 flex items-center gap-2 text-green-500">
-              Open <ArrowRight size={18} />
-            </div>
+              <p className={`mt-2 h-12 text-sm ${t.subText}`}>
+                Upload, Replace and Download your resume.
+              </p>
 
-          </AppCard>
+              <div className="mt-auto flex items-center gap-2 pt-6 text-green-500">
+                Open <ArrowRight size={18} />
+              </div>
+
+            </AppCard>
+          </Link>
 
           {/* Jobs */}
 
-          <AppCard whileHover={{y: -8, scale: 1.02}} whileTap={{scale: 0.98}}
-            onClick={()=> navigate("/jobs", {state: {fromDashboard: true}})}
-            className="group cursor-pointer hover:border-orange-500 hover:shadow-xl">
+          <Link to="/jobs" state={{ fromDashboard: true }} className="block">
+            <AppCard whileHover={{ y: -8, scale: 1.02 }} whileTap={{ scale: 0.98 }}
+              className="group flex min-h-[245px] flex-col cursor-pointer hover:border-orange-500 hover:shadow-xl">
 
-            <Briefcase
-              size={34}
-              className="mb-4 text-orange-500"
-            />
+              <Briefcase
+                size={34}
+                className="mb-4 text-orange-500"
+              />
 
-            <h3 className={`text-lg font-semibold ${t.heading}`}>
-              Browse Jobs
-            </h3>
+              <h3 className={`text-lg font-semibold ${t.heading}`}>
+                Browse Jobs
+              </h3>
 
-            <p className={`mt-2 text-sm ${t.subText}`}>
-              Explore latest Opportunities
-            </p>
+              <p className={`mt-2 h-12 text-sm ${t.subText}`}>
+                Explore latest Opportunities
+              </p>
 
-            <div className="mt-5 flex items-center gap-2 text-orange-500">Open <ArrowRight size={18} /></div>
+              <div className="mt-auto flex items-center gap-2 pt-6 text-orange-500">Open <ArrowRight size={18} /></div>
 
-          </AppCard>
+            </AppCard>
+          </Link>
 
           {/* AI */}
 
-          <AppCard className="opacity-70">
+          <Link to="/ai" className="block">
+            <AppCard whileHover={{ y: -8, scale: 1.02 }} whileTap={{ scale: 0.98 }}
+              className="group flex min-h-[245px] flex-col cursor-pointer hover:border-purple-500 hover:shadow-xl">
 
-            <Sparkles
-              size={34}
-              className="mb-4 text-purple-500"
-            />
 
-            <h3 className={`text-lg font-semibold ${t.heading}`}>
-              AI Resume Review
-            </h3>
+              <Sparkles
+                size={34}
+                className="mb-4 text-purple-500"
+              />
 
-            <p className={`mt-2 text-sm ${t.subText}`}>
-              Coming Soon
-            </p>
+              <h3 className={`text-lg font-semibold ${t.heading}`}>
+                AI Resume Review
+              </h3>
 
-          </AppCard>
+              <p className={`mt-2 h-12 text-sm ${t.subText}`}>
+                Coming Soon
+              </p>
+
+            </AppCard>
+          </Link>
 
         </div>
 

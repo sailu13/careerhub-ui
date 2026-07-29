@@ -1,26 +1,24 @@
 import type { ReactNode } from "react";
+import { SearchX } from "lucide-react";
 import { useAppTheme } from "@/shared/theme/theme";
 
 type Props = {
-  icon: ReactNode;
   title: string;
   description: string;
+  icon?: ReactNode;
 };
 
-export default function EmptyState({
-  icon,
-  title,
-  description,
-}: Props) {
+export default function EmptyState({ title, description, icon,}: Props) {
   const t = useAppTheme();
 
   return (
-    <div className="flex flex-col items-center justify-center py-20 text-center">
+    <div
+      className={` flex flex-col items-center justify-center rounded-2xl border px-8 py-16 text-center ${t.card} ${t.border} `} >
       <div className="mb-5 text-blue-500">
-        {icon}
+        {icon ?? <SearchX size={64} />}
       </div>
 
-      <h2 className={`text-2xl font-semibold ${t.heading}`}>
+      <h2 className={`text-2xl font-bold ${t.heading}`}>
         {title}
       </h2>
 

@@ -1,8 +1,6 @@
-import api from "../client";
+import http from "@/shared/services/http";
 import { API } from "../endpoints";
 
-export const getProfile = () =>
-  api.get(API.PROFILE);
+export const getProfile = () => http.get(API.PROFILE);
 
-export const updateProfile = (data: unknown) =>
-  api.put(API.PROFILE, data);
+export const updateProfile = (data: unknown) => http.put(API.PROFILE, data);

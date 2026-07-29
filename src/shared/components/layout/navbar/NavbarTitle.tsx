@@ -16,8 +16,8 @@ export default function NavbarTitle() {
         "/dashboard": "Welcome Back",
         "/profile": "Manage your Profile",
         "/resume": "Manage your Resume",
-        "/settings": "Customize your experience",
         "/jobs": "Find your next Opportunity",
+        "/settings": "Customize your experience",
         "/ai-review": "Imporve your resume with AI"
     };
 

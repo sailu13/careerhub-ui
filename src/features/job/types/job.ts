@@ -7,7 +7,7 @@ export interface Job {
   location: string;
   salary: string;
   description: string;
-  skills: string;
-  employmentType: | "FULL_TIME" | "PART_TIME" | "CONTRACT" | "INTERN" | "REMOTE";
+  skills: string[];
+  employmentType: string;
   postedAt: string;
 }

@@ -7,11 +7,7 @@ type Props = {
   placeholder?: string;
 };
 
-export default function SearchBar({
-  value,
-  onChange,
-  placeholder = "Search...",
-}: Props) {
+export default function SearchBar({ value, onChange, placeholder = "Search...",}: Props) {
   const t = useAppTheme();
 
   return (
@@ -19,8 +15,8 @@ export default function SearchBar({
       <Search size={18} className={`absolute left-3 top-1/2 -translate-y-1/2 ${t.subText}`} />
 
       <input type="text" value={value} placeholder={placeholder}
-        onChange={(e) => onChange(e.target.value)} className={`w-full rounded-lg border py-3 pl-10 pr-4 transition ${t.input}`}
-      />
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value) }
+        className={` w-full rounded-xl border pl-10 pr-4 py-3 outline-none transition ${t.input} `} />
     </div>
   );
 }

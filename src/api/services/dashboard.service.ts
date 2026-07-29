@@ -1,5 +1,4 @@
-import api from "../client";
+import http from "@/shared/services/http";
 import { API } from "../endpoints";
 
-export const getDashboard = () =>
-  api.get(API.DASHBOARD);
+export const getDashboard = () => http.get(API.DASHBOARD);

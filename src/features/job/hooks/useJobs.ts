@@ -1,20 +1,64 @@
 import { useEffect, useState } from "react";
 import type { Job } from "../types/job";
-import { getJobs } from "@/api/services/job.service";
+import { getJobs } from "../services/jobService";
 
-export function useJobs() {
+type Props = {
+    search: string;
+    location: string;
+    employmentType: string;
+};
+
+export function useJobs({
+    search,
+    location,
+    employmentType,
+}: Props) {
+
     const [jobs, setJobs] = useState<Job[]>([]);
-    const [loading, setLoading] = useState(true);
-    useEffect(()=> {loadJobs();}, []);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        loadJobs();
+    }, [search, location, employmentType]);
 
     async function loadJobs() {
         try {
-            const response = await getJobs();
-            setJobs(response.data.data);
+            setLoading(true);
+
+            const data = await getJobs();
+
+            let filtered = [...data];
+
+            if (search) {
+                filtered = filtered.filter(job =>
+                    job.title.toLowerCase().includes(search.toLowerCase())
+                );
+            }
+
+            if (location !== "All") {
+                filtered = filtered.filter(job =>
+                    job.location === location
+                );
+            }
+
+            if (employmentType !== "All") {
+                filtered = filtered.filter(job =>
+                    job.employmentType === employmentType
+                );
+            }
+
+            setJobs(filtered);
+
+        } catch (error) {
+            console.error(error);
         } finally {
             setLoading(false);
         }
-    } 
+    }
 
-    return {jobs, loading};
+    return {
+        jobs,
+        loading,
+        reload: loadJobs,
+    };
 }
