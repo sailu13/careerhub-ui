@@ -14,9 +14,7 @@ export const uploadResume = ( file: File, onProgress?: (progress: number) => voi
     },
     onUploadProgress(event) {
       if (!event.total) return;
-      const progress = Math.round(
-        (event.loaded * 100) / event.total
-      );
+      const progress = Math.round((event.loaded * 100) / event.total);
       onProgress?.(progress);
     },
   });

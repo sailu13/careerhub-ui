@@ -4,10 +4,12 @@ export interface LoginRequest {
 }
 
 export interface RegisterRequest {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   confirmPassword: string;
+  role: "JOB_SEEKER" | "RECRUITER";
 }
 
 export interface LoginResponse {

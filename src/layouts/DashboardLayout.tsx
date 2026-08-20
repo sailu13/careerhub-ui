@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useAppTheme } from "@/shared/theme/theme";
 
 export default function DashboardLayout() {
+  console.log("DashboardLayout rendered");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const t = useAppTheme();

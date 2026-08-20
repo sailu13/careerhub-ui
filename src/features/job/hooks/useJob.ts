@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Job } from "../types/job";
-import { getJobById } from "../services/jobService";
+import { getJobById } from "@/api/services/job.service";
 
 export function useJob(id: number) {
     const [job, setJob] = useState<Job | null>(null);

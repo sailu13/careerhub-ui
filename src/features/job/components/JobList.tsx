@@ -22,7 +22,7 @@ export default function JobList({ jobs, loading,}: Props) {
     );
   }
 
-  if (jobs.length === 0) {
+  if (!loading && jobs.length === 0) {
     return (
       <EmptyState title="No Jobs Found" description="Try changing your search or filters." />
     );

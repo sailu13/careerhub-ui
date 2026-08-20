@@ -12,7 +12,7 @@ export default function JobsPage() {
   const [search, setSearch] = useState("");
   const [location, setLocation] = useState("All");
   const [employmentType, setEmploymentType] = useState("All");
-  const { jobs, loading } = useJobs({search, location, employmentType });
+  const { jobs, loading, page, setPage, totalPages } = useJobs({search, location, employmentType });
   const routerLocation = useLocation();
   const showBack = routerLocation.state?.fromDashboard ?? false;
 
@@ -26,10 +26,21 @@ export default function JobsPage() {
         onLocationChange={setLocation} employmentType={employmentType} onEmploymentTypeChange={setEmploymentType} />
 
       {/* Section Title */}
-      <SectionTitle title="Available Jobs" subtitle={`${jobs.length} Jobs Found`} />
+      <SectionTitle title="Available Jobs" subtitle={`${jobs.length} Jobs on this page`} />
 
       {/* Job List */}
       <JobList jobs={jobs} loading={loading} />
+
+      <div className="flex items-center justify-center pt-6">
+        <button onClick={()=> setPage(page-1)} disabled={page===0} className="rounded-lg border px-4 py-2 disabled:opacity-50">
+          Previous
+        </button>
+        <span className="text-sm font-medium px-6">  Page {page + 1} of {totalPages}  </span>
+        <button onClick={()=> setPage(page+1)} disabled={page+1 >= totalPages} 
+          className="rounded-lg border px-4 py-2 disabled:opacity-50">
+            Next
+        </button>
+      </div>
     </div>
   );
 }

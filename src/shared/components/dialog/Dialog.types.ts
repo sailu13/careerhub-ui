@@ -1,0 +1,1 @@
+export type DialogType = | "success" | "error" | "warning" | "info";

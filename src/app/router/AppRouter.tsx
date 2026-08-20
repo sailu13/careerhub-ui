@@ -16,6 +16,11 @@ import PublicRoute from "@/shared/components/auth/PublicRoute";
 import SettingsPage from "@/features/settings/pages/SettingsPage";
 import JobsPage from "@/features/job/pages/JobsPage";
 import JobDetailsPage from "@/features/job/pages/JobDetailsPage";
+import RoleGuard from "@/shared/components/auth/RoleGuard";
+import PostJobPage from "@/features/job/pages/PostJobPage";
+import MyJobsPage from "@/features/job/pages/MyJobsPage";
+import ApplicantsPage from "@/features/job/pages/ApplicantsPage";
+import OAuth2SuccessPage from "@/features/auth/pages/OAuth2SuccessPage";
 
 export default function AppRouter() {
   return (
@@ -31,6 +36,7 @@ export default function AppRouter() {
             element={<ForgotPasswordPage />}
           />
         </Route>
+        <Route path="/oauth2/success" element={<OAuth2SuccessPage />} />
 
         {/* Dashboard */}
         <Route element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
@@ -39,7 +45,10 @@ export default function AppRouter() {
           <Route path="/resume" element={<ResumePage />} />
           <Route path="/jobs" element={<JobsPage />} />
           <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/jobs/:id" element={<JobDetailsPage /> }/>
+          <Route path="/jobs/:id" element={<JobDetailsPage />} />
+          <Route path="/post-job" element={<RoleGuard roles={["RECRUITER", "ADMIN"]}><PostJobPage /></RoleGuard>}/>
+          <Route path="/my-jobs" element={<RoleGuard roles={["RECRUITER", "ADMIN"]}><MyJobsPage /></RoleGuard>} />
+          <Route path="/applicants" element={<RoleGuard roles={["RECRUITER", "ADMIN"]}>  <ApplicantsPage /> </RoleGuard> } />
         </Route>
       </Routes>
 
